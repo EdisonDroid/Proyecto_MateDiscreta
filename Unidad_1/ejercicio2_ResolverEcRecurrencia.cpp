@@ -55,10 +55,10 @@ int main() {
     }
 
     int m;
-    cout << "Ingrese el valor de m (término inicial a mostrar, 0 <= m <= n): ";
+    cout << "Ingrese el valor de m (termino inicial a mostrar, 0 <= m <= n): ";
     cin >> m;
     if (m < 0 || m > n) {
-        cout << "Rango inválido de m.\n";
+        cout << "Rango invalido de m.\n";
         return 1;
     }
 
@@ -66,7 +66,7 @@ int main() {
     vector<double> sol = resolverRecurrencia(grado, coef, cond, n);
 
     // Mostrar resultados desde m hasta n
-    cout << "\nTérminos de la recurrencia de a(" << m << ") a a(" << n << "):\n";
+    cout << "\nTerminos de la recurrencia de a(" << m << ") a a(" << n << "):\n";
     for (int i = m; i <= n; i++) {
         cout << "a(" << i << ") = " << sol[i] << endl;
     }
