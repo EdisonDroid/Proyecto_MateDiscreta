@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+void agregarArista(vector<vector<int>>& grafo, int u, int v) {
+    grafo[u].push_back(v);
+    grafo[v].push_back(u);
+}
+
+void eliminarArista(vector<vector<int>>& grafo, int u, int v) {
+    grafo[u].erase(find(grafo[u].begin(), grafo[u].end(), v));
+    grafo[v].erase(find(grafo[v].begin(), grafo[v].end(), u));
+}
+
+vector<int> encontrarCircuitoEuleriano(vector<vector<int>> grafo, int inicio) {
+    stack<int> pila;
+    vector<int> circuito;
+    pila.push(inicio);
+
+    while (!pila.empty()) {
+        int u = pila.top();
+        if (!grafo[u].empty()) {
+            int v = grafo[u].back();
+            eliminarArista(grafo, u, v);
+            pila.push(v);
+        } else {
+            circuito.push_back(u);
+            pila.pop();
+        }
+    }
+
+    reverse(circuito.begin(), circuito.end());
+    return circuito;
+}
+
+int main() {
+    int V, E;
+    cout << "Ingrese número de vértices y aristas: ";
+    cin >> V >> E;
+
+    vector<vector<int>> grafo(V);
+    cout << "Ingrese las aristas (u v):\n";
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        agregarArista(grafo, u, v);
+    }
+
+    // Verificamos grados pares
+    for (int i = 0; i < V; ++i) {
+        if (grafo[i].size() % 2 != 0) {
+            cout << "El vértice " << i << " tiene grado impar. No se puede hallar un circuito euleriano.\n";
+            return 0;
+        }
+    }
+
+    int inicio = 0;
+    vector<int> circuito = encontrarCircuitoEuleriano(grafo, inicio);
+
+    cout << "Circuito euleriano encontrado:\n";
+    for (int v : circuito)
+        cout << v << " ";
+    cout << endl;
+
+    return 0;
+}
